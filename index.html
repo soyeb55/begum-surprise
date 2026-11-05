@@ -23,7 +23,9 @@
 <button id="nextBtn" onclick="nextPage()">Next ➜</button>
 
 <script>
-  const pages = ["surprise.html", "story.html", "happy-surprise.html", "questions.html"];
+  // The ?v=3 tag forces phones to load the newest questions page.
+  // When you update questions.html later, change v=3 to v=4, and so on.
+  const pages = ["surprise.html", "story.html", "happy-surprise.html", "questions.html?v=3"];
   let current = 0;
   const frame = document.getElementById("frame");
   const nextBtn = document.getElementById("nextBtn");
