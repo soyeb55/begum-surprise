@@ -14,7 +14,6 @@ body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:c
 .tag{font:600 .75rem Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#9a7734}
 .emoji{font-size:3.5rem;margin:.5rem 0}
 h2{font-weight:normal;color:#073c32;font-size:1.5rem;line-height:1.4;margin:.6rem 0}
-.blank-line{font-size:1.1rem;line-height:2}
 input[type=text]{font:inherit;font-size:1rem;padding:.5rem;border:1px solid #d8b66a;border-radius:12px;color:#073c32;outline:none}
 input[type=text]:focus{border-color:#0b5142}
 .choices{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:1rem}
@@ -23,7 +22,7 @@ input[type=text]:focus{border-color:#0b5142}
 .choice:hover{transform:scale(1.05)}
 .choice.picked{background:#0b5142;color:#fff9e9;border-color:#0b5142}
 .btn{margin-top:1.4rem;padding:.9rem 1.7rem;border:none;border-radius:999px;background:#d8b66a;color:#163c32;
-  font:inherit;font-size:1.05rem;cursor:pointer;transition:transform .2s}
+  font:inherit;font-size:1.05rem;cursor:pointer;transition:transform .2s;margin-left:.3rem;margin-right:.3rem}
 .btn:hover{transform:scale(1.06)}
 .compliment{display:none;margin-top:1rem;padding:.8rem 1rem;border-radius:16px;background:#edf3e8;
   border:1px solid #d4dfcc;font-style:italic;line-height:1.7;animation:pop .5s ease both}
@@ -31,9 +30,8 @@ input[type=text]:focus{border-color:#0b5142}
 @keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .bar{position:absolute;bottom:0;left:0;height:6px;background:#d8b66a;transition:width .4s}
 .step.active{display:block;animation:pop .5s ease both}
-.summary{text-align:left;line-height:1.9;font-size:1rem}
-.summary div{padding:.3rem 0;border-bottom:1px dashed #e8dcc0}
-
+.summary{text-align:left;line-height:1.9;font-size:1rem;margin-top:1rem}
+.summary div{padding:.4rem 0;border-bottom:1px dashed #e8dcc0}
 /* Phone fix: allow scrolling on small screens */
 html, body { height: auto !important; min-height: 100% !important; overflow-y: auto !important; }
 body { align-items: flex-start !important; padding: 1.5rem 0.8rem 4rem !important; }
@@ -87,7 +85,7 @@ const questions = [
     type: "open", compliment: "May Allah make our journey filled with barakah and goodness. Ameen 🤍" }
 ];
 
-// ===== Engine (no need to edit below) =====
+// ===== Engine =====
 const card = document.getElementById("steps");
 const bar = document.getElementById("bar");
 const answers = [];
@@ -131,7 +129,7 @@ function submitAnswer() {
   const item = questions[index];
   const btn = document.getElementById("actionBtn");
 
-  // Save the answer (only once, the first time the button is pressed)
+  // Save the answer (only the first time the button is pressed)
   if (btn.dataset.stage !== "compliment") {
     let value = "";
     if (item.type === "open") {
@@ -167,11 +165,18 @@ function showSummary() {
     <div class="emoji">🤍</div>
     <h2>Thank you for sharing with me</h2>
     <div class="summary">` +
-    answers.map(x => `<div>${x.a}</div>`).join("") +
+    answers.map(x => `<div><strong>${x.q}</strong><br>${x.a}</div>`).join("") +
     `</div>
-    <p style="margin-top:1rem">Every answer is a gift I'm grateful to receive. 🤍</p>
+    <button class="btn" onclick="downloadAnswers()">Send answers to me 💚</button>
     <button class="btn" onclick="restart()">Start again 🔁</button>
   </div>`;
+}
+
+function downloadAnswers() {
+  const text = "My answers for you 🤍\n\n" +
+    answers.map((x, i) => (i + 1) + ". " + x.q + "\nAnswer: " + x.a).join("\n\n");
+  const url = "https://wa.me/918597262980?text=" + encodeURIComponent(text);
+  window.open(url, "_blank");
 }
 
 function restart() {
