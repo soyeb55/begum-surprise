@@ -46,43 +46,64 @@ body { align-items: flex-start !important; padding: 1.5rem 0.8rem 4rem !importan
 <script>
 // ===== Questions =====
 const questions = [
-  { emoji: "🌸", q: "Begum Ji, what is one small thing that always makes your day better?",
-    type: "open", compliment: "Masha'Allah, I'll keep that in my heart and try to do more of it 🤍" },
+  { emoji: "🥰", q: "Sach batao Begum Ji, aap mujhe sabse zyada kab miss karti ho?",
+    type: "open", compliment: "Main bhi aapko bahut miss karta hoon, aap jitna sochti ho usse bhi zyada 🤍" },
 
-  { emoji: "🤲", q: "What do you pray for most these days?",
-    type: "open", compliment: "Ameen. May Allah grant you everything that is good for you 🤍" },
+  { emoji: "😊", q: "Mere kis baat se aapka dil dhadakne lagta hai?",
+    type: "open", compliment: "Aapki ye baat sunkar mera dil bhi khush ho gaya 🤍" },
 
-  { emoji: "☕", q: "Which of these do you enjoy most?",
-    type: "choice", options: ["Quiet time at home", "Going out with family", "Reading", "Cooking", "Nature and walks"],
-    compliment: "Thank you for sharing that with me. I'd love to learn more about it 🌿" },
+  { emoji: "🌸", q: "Hum phone par baat karte hain, to aapko sabse achha kya lagta hai?",
+    type: "open", compliment: "Aapki awaaz meri sabse pyaari awaaz hai 🌸" },
 
-  { emoji: "📝", q: "Fill in the blanks: My favorite food is ____ and my favorite color is ____.",
-    type: "blank", blanks: 2, compliment: "Thank you for telling me. I'll remember it 📌" },
+  { emoji: "🙈", q: "Inmein se kaun si baat sunkar aap sabse zyada sharma jaati ho?",
+    type: "choice", options: ["Jab main aapka naam pyaar se leta hoon", "Jab main aapko message karta hoon", "Jab main kehta hoon aap bahut pyaari lagti ho", "Jab main bas aapko dekhta rehta hoon"],
+    compliment: "Main ye sab karta rahunga, kyunki aapko sharmate hue dekhna mujhe bahut achha lagta hai 🙈" },
 
-  { emoji: "💛", q: "Fill in the blanks: Something I don't like is ____, and I would prefer it to be ____.",
-    type: "blank", blanks: 2, compliment: "Thank you for being honest with me. I'll keep it in mind 💛" },
+  { emoji: "💛", q: "Mere aapke saath behavior mein aapko sabse achhi kaun si baat lagti hai?",
+    type: "open", compliment: "Shukriya aapka, aap isse bhi zyada deserve karti ho 💛" },
 
-  { emoji: "📖", q: "What kind of books, shows, or videos do you find meaningful?",
-    type: "open", compliment: "That's a good choice. I'd be glad to learn about them with you 🌷" },
+  { emoji: "🌙", q: "Mere andar kaun si quality aapko sabse zyada pasand hai?",
+    type: "open", compliment: "Shukriya, main aapke liye ye quality hamesha banaye rakhne ki koshish karunga 🤍" },
 
-  { emoji: "🌙", q: "What quality in a person matters most to you?",
-    type: "choice", options: ["Honesty", "Kindness", "Faith", "Respect", "Patience"],
-    compliment: "That is a beautiful quality, and I hope to grow in it for you 🤍" },
+  { emoji: "☕", q: "Agar hum ek cozy shaam saath mein bitayein, to aap kya karna chahogi?",
+    type: "choice", options: ["Movie dekhna", "Saath mein kuch banana", "Drive par jaana", "Raat bhar baatein karna"],
+    compliment: "Ye to aapke saath perfect shaam hogi 🌙" },
 
-  { emoji: "🏡", q: "Fill in the blanks: My ideal home would have a ____ and a place for ____.",
-    type: "blank", blanks: 2, compliment: "That sounds peaceful and lovely 🏡" },
+  { emoji: "📝", q: "Fill in the blanks: Mera pasandida khana ____ hai aur mera pasandida rang ____ hai.",
+    type: "blank", blanks: 2, compliment: "Batane ke liye shukriya, main ise hamesha yaad rakhunga 📌" },
 
-  { emoji: "🌍", q: "Is there a place you would like to visit one day?",
-    type: "open", compliment: "Insha'Allah, one day we will be able to visit it together 🤍" },
+  { emoji: "💫", q: "Fill in the blanks: Jab main aapko dekhta hoon to mujhe ____ lagta hai, aur jab aap muskurati ho to mujhe ____ lagta hai.",
+    type: "blank", blanks: 2, compliment: "Begum Ji, aapne mera din bana diya 🥹" },
 
-  { emoji: "💬", q: "Is there anything you would like me to do differently, or to understand better?",
-    type: "open", compliment: "Thank you for trusting me with this. I truly appreciate it 🤍" },
+  { emoji: "🌍", q: "Aap mere saath kis jagah ghoomna chahogi ek din?",
+    type: "open", compliment: "Insha'Allah, main us safar ko zaroor pura karunga 🧳" },
 
-  { emoji: "🕊️", q: "When you feel stressed, what helps you feel calm again?",
-    type: "open", compliment: "I hope I can be a source of calm for you too, Insha'Allah 🕊️" },
+  { emoji: "🧳", q: "Agar hum ek trip par jaayein, to aap pahaad, beach ya city mein se kya pasand karogi?",
+    type: "choice", options: ["Pahaad", "Beach", "City"],
+    compliment: "Theek hai! Hamari agli trip usi hisaab se plan karunga 🧳" },
 
-  { emoji: "🌹", q: "What do you hope our future looks like?",
-    type: "open", compliment: "May Allah make our journey filled with barakah and goodness. Ameen 🤍" }
+  { emoji: "💕", q: "Agar hamara ek perfect din ho, to aap usme kya karna chahogi?",
+    type: "open", compliment: "Ye sunkar achha laga, main ye din zaroor sach karunga 💕" },
+
+  { emoji: "🏡", q: "Fill in the blanks: Mere sapnon ke ghar mein ____ hoga aur ____ ke liye ek jagah hogi.",
+    type: "blank", blanks: 2, compliment: "Ye to pyaar se bhara ghar lagta hai 🏡" },
+
+  { emoji: "🌹", q: "Aap chahogi ki main aapko roz kya kahun?",
+    type: "open", compliment: "Main ye roz aapko kahunga, ye mera vaada hai 🌹" },
+
+  { emoji: "🍳", q: "Aap chahogi ki main aapke liye khana banaun, ya hum saath mein banayein?",
+    type: "choice", options: ["Aap mere liye banaiye", "Saath mein banayenge", "Dono"],
+    compliment: "Main iska intezaar karunga, Begum Ji 😊" },
+
+  { emoji: "🤍", q: "Hamari zindagi ke liye aapka ek sapna kya hai?",
+    type: "open", compliment: "Main ye saare sapne aapke saath poore karna chahta hoon 🤍" },
+
+  { emoji: "👨‍👩‍👧", q: "Aap ek din kitne bachche chahogi, Insha'Allah?",
+    type: "choice", options: ["1", "2", "3", "4 ya usse zyada", "Allah par chhod diya"],
+    compliment: "Allah jo bhi de, wo hamare liye barakat hogi 🤍" },
+
+  { emoji: "🌷", q: "Aap hamare future ko kaisa dekhna chahti ho?",
+    type: "open", compliment: "Main bhi yahi chahta hoon, aur har roz ise sach karne ki koshish karunga 🌷" }
 ];
 
 // ===== Engine =====
@@ -101,12 +122,12 @@ function render() {
     <h2>${item.q}</h2>`;
 
   if (item.type === "open") {
-    inner += `<input type="text" id="answer" placeholder="Type here..." style="width:85%">`;
+    inner += `<input type="text" id="answer" placeholder="Yahan likhiye..." style="width:85%">`;
   }
   if (item.type === "blank") {
-    inner += `<p style="font-size:.95rem;color:#6b7b70">Fill in whatever feels true to you 🤍</p>`;
-    inner += `<input type="text" id="answer" placeholder="First blank" style="width:44%;margin:.3rem">`;
-    inner += `<input type="text" id="answer2" placeholder="Second blank" style="width:44%;margin:.3rem">`;
+    inner += `<p style="font-size:.95rem;color:#6b7b70">Jo sach lage wo likhiye 🤍</p>`;
+    inner += `<input type="text" id="answer" placeholder="Pehla blank" style="width:44%;margin:.3rem">`;
+    inner += `<input type="text" id="answer2" placeholder="Doosra blank" style="width:44%;margin:.3rem">`;
   }
   if (item.type === "choice") {
     inner += `<div class="choices">` +
@@ -146,7 +167,7 @@ function submitAnswer() {
     // Show the compliment first
     document.getElementById("comp").classList.add("show");
     btn.dataset.stage = "compliment";
-    btn.textContent = index === questions.length - 1 ? "See our summary 🤍" : "Next question ➜";
+    btn.textContent = index === questions.length - 1 ? "Summary dekhein 🤍" : "Agla sawal ➜";
     return;
   }
 
@@ -163,17 +184,17 @@ function showSummary() {
   bar.style.width = "100%";
   card.innerHTML = `<div class="step active">
     <div class="emoji">🤍</div>
-    <h2>Thank you for sharing with me</h2>
+    <h2>Mere saath share karne ke liye shukriya</h2>
     <div class="summary">` +
     answers.map(x => `<div><strong>${x.q}</strong><br>${x.a}</div>`).join("") +
     `</div>
-    <button class="btn" onclick="downloadAnswers()">Send answers to me 💚</button>
-    <button class="btn" onclick="restart()">Start again 🔁</button>
+    <button class="btn" onclick="downloadAnswers()">Mujhe jawab bhejiye 💚</button>
+    <button class="btn" onclick="restart()">Dobara shuru karein 🔁</button>
   </div>`;
 }
 
 function downloadAnswers() {
-  const text = "My answers for you 🤍\n\n" +
+  const text = "Mere jawab aapke liye 🤍\n\n" +
     answers.map((x, i) => (i + 1) + ". " + x.q + "\nAnswer: " + x.a).join("\n\n");
   const url = "https://wa.me/918597262980?text=" + encodeURIComponent(text);
   window.open(url, "_blank");
