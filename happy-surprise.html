@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A little surprise for you 💕</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  font-family:Georgia,"Times New Roman",serif;color:#6b2d4f;
+  background:linear-gradient(135deg,#ffd6e7,#fbe2f5,#ffeef5)}
+.card{width:min(520px,92vw);min-height:420px;padding:2rem 1.5rem;border-radius:24px;text-align:center;
+  background:#fffafc;box-shadow:0 20px 50px #c2185b30;position:relative;overflow:hidden}
+.step{display:none;animation:pop .5s ease both}
+.step.active{display:block}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.big{font-size:5rem;display:inline-block;cursor:pointer;transition:transform .2s}
+.big:hover{transform:scale(1.1)}
+.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+h2{font-weight:normal;font-size:1.8rem;margin:.6rem 0;color:#c2185b}
+p{font-size:1.15rem;line-height:1.7;margin:.6rem 0}
+.btn{margin-top:1.2rem;padding:.9rem 1.7rem;border:none;border-radius:999px;font:inherit;font-size:1.05rem;
+  background:linear-gradient(90deg,#ff5c8a,#ff8fb1);color:#fff;cursor:pointer;box-shadow:0 6px 16px #ff5c8a55;transition:transform .2s}
+.btn:hover{transform:scale(1.06)}
+.compliment{display:inline-block;background:#fff;border:1px solid #f5c6da;border-radius:18px;padding:.6rem 1rem;margin-top:.8rem;min-height:2.6rem}
+.game{position:relative;height:260px;margin-top:.8rem;border-radius:16px;background:#fff0f6;overflow:hidden}
+.heart{position:absolute;font-size:2rem;cursor:pointer;user-select:none;animation:drop linear forwards}
+@keyframes drop{from{transform:translateY(-40px)}to{transform:translateY(300px)}}
+.score{font-size:1.1rem;margin-top:.6rem}
+.float{position:fixed;bottom:-40px;pointer-events:none;animation:up 5s linear forwards;font-size:1.5rem}
+@keyframes up{to{transform:translateY(-110vh);opacity:0}}
+.dots{display:flex;justify-content:center;gap:.4rem;position:absolute;bottom:12px;left:0;right:0}
+.dots i{width:9px;height:9px;border-radius:50%;background:#f3c2d6}
+.dots i.on{background:#c2185b}
+
+/* Phone fix: allow scrolling on small screens */
+html, body { height: auto !important; min-height: 100% !important; overflow-y: auto !important; }
+body { align-items: flex-start !important; padding: 1.5rem 0.8rem 4rem !important; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+
+  <!-- Step 1: Gift box -->
+  <section class="step active" data-step="1">
+    <div class="big" id="gift" onclick="openGift()">🎁</div>
+    <h2>Someone has a surprise for you</h2>
+    <p>Tap the gift to open it 💕</p>
+  </section>
+
+  <!-- Step 2: Compliments -->
+  <section class="step" data-step="2">
+    <div class="big" id="sparkle" onclick="sparkle()">✨</div>
+    <h2>Things I think about you</h2>
+    <p class="compliment" id="compText">Tap the sparkle to find out 👆</p>
+    <br>
+    <button class="btn" onclick="next()" id="btn2" style="display:none">Next 💗</button>
+  </section>
+
+  <!-- Step 3: Catch the hearts -->
+  <section class="step" data-step="3">
+    <h2>Catch my hearts! 💖</h2>
+    <p>Tap as many hearts as you can before they fall.</p>
+    <div class="game" id="game"></div>
+    <p class="score" id="score">Score: 0</p>
+    <button class="btn" onclick="next()" id="btn3" style="display:none">Next 💕</button>
+  </section>
+
+  <!-- Step 4: Final message -->
+  <section class="step" data-step="4">
+    <div class="big">💐</div>
+    <h2>You make every day brighter 🥰</h2>
+    <p>Thank you for being you. I hope this made you smile today.</p>
+    <button class="btn" onclick="replay()">Replay 🔁</button>
+  </section>
+
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+let current = 1;
+const total = 4;
+
+// progress dots
+const dots = document.getElementById("dots");
+for (let i = 0; i < total; i++) dots.innerHTML += "<i></i>";
+
+function show(n) {
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+  document.querySelector(`[data-step="${n}"]`).classList.add("active");
+  [...dots.children].forEach((d, i) => d.classList.toggle("on", i < n));
+  current = n;
+}
+function next() { if (current < total) show(current + 1); }
+function replay() { show(1); }
+
+// Step 1: gift opens, shakes, and floats hearts
+function openGift() {
+  const g = document.getElementById("gift");
+  g.textContent = "💝";
+  g.classList.add("shake");
+  burst(["💖","🌸","💕","🥰","✨"], 30);
+  setTimeout(() => show(2), 1200);
+}
+
+// Step 2: sparkles give a new compliment each tap
+const compliments = [
+  "Your smile can make my whole day better 😊",
+  "You are kind, patient, and truly special 💚",
+  "I love how you make everything feel warm 🌷",
+  "You are my favorite person to talk to 💕",
+  "Thank you for being exactly who you are 🥹"
+];
+let compIndex = 0;
+function sparkle() {
+  const s = document.getElementById("sparkle");
+  s.classList.remove("shake"); void s.offsetWidth; s.classList.add("shake");
+  document.getElementById("compText").textContent = compliments[compIndex];
+  compIndex++;
+  if (compIndex >= 3) document.getElementById("btn2").style.display = "inline-block";
+  if (compIndex >= compliments.length) compIndex = 0;
+}
+
+// Step 3: heart catching game
+let score = 0;
+let gameTimer = null;
+function startGame() {
+  const game = document.getElementById("game");
+  game.innerHTML = "";
+  score = 0;
+  document.getElementById("score").textContent = "Score: 0";
+  gameTimer = setInterval(() => {
+    const h = document.createElement("span");
+    h.className = "heart";
+    h.textContent = ["💖","💕","💗"][Math.floor(Math.random()*3)];
+    h.style.left = Math.random() * 85 + "%";
+    h.style.animationDuration = (2 + Math.random() * 2) + "s";
+    h.onclick = () => {
+      score++;
+      document.getElementById("score").textContent = "Score: " + score;
+      h.remove();
+      if (score === 10) {
+        document.getElementById("btn3").style.display = "inline-block";
+        document.getElementById("score").textContent = "Score: 10! You win my heart 💞";
+      }
+    };
+    game.appendChild(h);
+    setTimeout(() => h.remove(), 4000);
+  }, 600);
+}
+
+// start the game whenever step 3 appears
+const observer = new MutationObserver(() => {
+  const step3 = document.querySelector('[data-step="3"]');
+  if (step3.classList.contains("active") && !gameTimer) startGame();
+});
+observer.observe(document.getElementById("card"), { subtree: true, attributes: true, attributeFilter: ["class"] });
+
+// Hearts floating across the screen
+function burst(items, count) {
+  for (let i = 0; i < count; i++) {
+    const f = document.createElement("span");
+    f.className = "float";
+    f.textContent = items[Math.floor(Math.random()*items.length)];
+    f.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 5000);
+  }
+}
+</script>
+</body>
+</html>

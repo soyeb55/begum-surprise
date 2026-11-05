@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get to know you more 🤍</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  font-family:Georgia,"Times New Roman",serif;color:#18362f;
+  background:radial-gradient(ellipse at 50% 35%,#145849 0%,#0b4438 45%,#052b25 100%)}
+.card{width:min(560px,92vw);min-height:440px;padding:2rem 1.5rem 3.5rem;border-radius:22px;text-align:center;
+  background:#fffaf0;border:1px solid #d8c28c;box-shadow:0 25px 60px #00000040;position:relative;overflow:hidden}
+.tag{font:600 .75rem Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#9a7734}
+.emoji{font-size:3.5rem;margin:.5rem 0}
+h2{font-weight:normal;color:#073c32;font-size:1.5rem;line-height:1.4;margin:.6rem 0}
+.blank-line{font-size:1.1rem;line-height:2}
+input[type=text]{font:inherit;font-size:1rem;padding:.5rem;border:1px solid #d8b66a;border-radius:12px;color:#073c32;outline:none}
+input[type=text]:focus{border-color:#0b5142}
+.choices{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:1rem}
+.choice{padding:.6rem 1rem;border-radius:999px;border:1px solid #d8b66a;background:#fff;color:#163c32;
+  font:inherit;cursor:pointer;transition:transform .2s,background .2s}
+.choice:hover{transform:scale(1.05)}
+.choice.picked{background:#0b5142;color:#fff9e9;border-color:#0b5142}
+.btn{margin-top:1.4rem;padding:.9rem 1.7rem;border:none;border-radius:999px;background:#d8b66a;color:#163c32;
+  font:inherit;font-size:1.05rem;cursor:pointer;transition:transform .2s}
+.btn:hover{transform:scale(1.06)}
+.compliment{display:none;margin-top:1rem;padding:.8rem 1rem;border-radius:16px;background:#edf3e8;
+  border:1px solid #d4dfcc;font-style:italic;line-height:1.7;animation:pop .5s ease both}
+.compliment.show{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.bar{position:absolute;bottom:0;left:0;height:6px;background:#d8b66a;transition:width .4s}
+.step.active{display:block;animation:pop .5s ease both}
+.summary{text-align:left;line-height:1.9;font-size:1rem}
+.summary div{padding:.3rem 0;border-bottom:1px dashed #e8dcc0}
+
+/* Phone fix: allow scrolling on small screens */
+html, body { height: auto !important; min-height: 100% !important; overflow-y: auto !important; }
+body { align-items: flex-start !important; padding: 1.5rem 0.8rem 4rem !important; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div id="steps"></div>
+  <div class="bar" id="bar" style="width:0%"></div>
+</div>
+
+<script>
+// ===== Questions =====
+const questions = [
+  { emoji: "🌸", q: "Begum Ji, what is one small thing that always makes your day better?",
+    type: "open", compliment: "Masha'Allah, I'll keep that in my heart and try to do more of it 🤍" },
+
+  { emoji: "🤲", q: "What do you pray for most these days?",
+    type: "open", compliment: "Ameen. May Allah grant you everything that is good for you 🤍" },
+
+  { emoji: "☕", q: "Which of these do you enjoy most?",
+    type: "choice", options: ["Quiet time at home", "Going out with family", "Reading", "Cooking", "Nature and walks"],
+    compliment: "Thank you for sharing that with me. I'd love to learn more about it 🌿" },
+
+  { emoji: "📝", q: "Fill in the blanks: My favorite food is ____ and my favorite color is ____.",
+    type: "blank", blanks: 2, compliment: "Thank you for telling me. I'll remember it 📌" },
+
+  { emoji: "💛", q: "Fill in the blanks: Something I don't like is ____, and I would prefer it to be ____.",
+    type: "blank", blanks: 2, compliment: "Thank you for being honest with me. I'll keep it in mind 💛" },
+
+  { emoji: "📖", q: "What kind of books, shows, or videos do you find meaningful?",
+    type: "open", compliment: "That's a good choice. I'd be glad to learn about them with you 🌷" },
+
+  { emoji: "🌙", q: "What quality in a person matters most to you?",
+    type: "choice", options: ["Honesty", "Kindness", "Faith", "Respect", "Patience"],
+    compliment: "That is a beautiful quality, and I hope to grow in it for you 🤍" },
+
+  { emoji: "🏡", q: "Fill in the blanks: My ideal home would have a ____ and a place for ____.",
+    type: "blank", blanks: 2, compliment: "That sounds peaceful and lovely 🏡" },
+
+  { emoji: "🌍", q: "Is there a place you would like to visit one day?",
+    type: "open", compliment: "Insha'Allah, one day we will be able to visit it together 🤍" },
+
+  { emoji: "💬", q: "Is there anything you would like me to do differently, or to understand better?",
+    type: "open", compliment: "Thank you for trusting me with this. I truly appreciate it 🤍" },
+
+  { emoji: "🕊️", q: "When you feel stressed, what helps you feel calm again?",
+    type: "open", compliment: "I hope I can be a source of calm for you too, Insha'Allah 🕊️" },
+
+  { emoji: "🌹", q: "What do you hope our future looks like?",
+    type: "open", compliment: "May Allah make our journey filled with barakah and goodness. Ameen 🤍" }
+];
+
+// ===== Engine (no need to edit below) =====
+const card = document.getElementById("steps");
+const bar = document.getElementById("bar");
+const answers = [];
+let index = 0;
+
+function render() {
+  const item = questions[index];
+  bar.style.width = (index / questions.length * 100) + "%";
+
+  let inner = `<div class="step active">
+    <div class="tag">Question ${index + 1} of ${questions.length}</div>
+    <div class="emoji">${item.emoji}</div>
+    <h2>${item.q}</h2>`;
+
+  if (item.type === "open") {
+    inner += `<input type="text" id="answer" placeholder="Type here..." style="width:85%">`;
+  }
+  if (item.type === "blank") {
+    inner += `<p style="font-size:.95rem;color:#6b7b70">Fill in whatever feels true to you 🤍</p>`;
+    inner += `<input type="text" id="answer" placeholder="First blank" style="width:44%;margin:.3rem">`;
+    inner += `<input type="text" id="answer2" placeholder="Second blank" style="width:44%;margin:.3rem">`;
+  }
+  if (item.type === "choice") {
+    inner += `<div class="choices">` +
+      item.options.map(o => `<button class="choice" onclick="pick(this)">${o}</button>`).join("") +
+      `</div>`;
+  }
+
+  inner += `<div class="compliment" id="comp">${item.compliment}</div>`;
+  inner += `<button class="btn" id="actionBtn" onclick="submitAnswer()">Answer 🤍</button>`;
+  inner += `</div>`;
+  card.innerHTML = inner;
+}
+
+function pick(btn) {
+  document.querySelectorAll(".choice").forEach(b => b.classList.remove("picked"));
+  btn.classList.add("picked");
+}
+
+function submitAnswer() {
+  const item = questions[index];
+  const btn = document.getElementById("actionBtn");
+
+  // Save the answer (only once, the first time the button is pressed)
+  if (btn.dataset.stage !== "compliment") {
+    let value = "";
+    if (item.type === "open") {
+      value = document.getElementById("answer").value.trim();
+    } else if (item.type === "blank") {
+      value = document.getElementById("answer").value.trim() + " / " + document.getElementById("answer2").value.trim();
+    } else if (item.type === "choice") {
+      const picked = document.querySelector(".choice.picked");
+      if (!picked) return;
+      value = picked.textContent;
+    }
+    answers.push({ q: item.q, a: value || "(no answer)" });
+
+    // Show the compliment first
+    document.getElementById("comp").classList.add("show");
+    btn.dataset.stage = "compliment";
+    btn.textContent = index === questions.length - 1 ? "See our summary 🤍" : "Next question ➜";
+    return;
+  }
+
+  // Move to the next question
+  index++;
+  if (index < questions.length) {
+    render();
+  } else {
+    showSummary();
+  }
+}
+
+function showSummary() {
+  bar.style.width = "100%";
+  card.innerHTML = `<div class="step active">
+    <div class="emoji">🤍</div>
+    <h2>Thank you for sharing with me</h2>
+    <div class="summary">` +
+    answers.map(x => `<div>${x.a}</div>`).join("") +
+    `</div>
+    <p style="margin-top:1rem">Every answer is a gift I'm grateful to receive. 🤍</p>
+    <button class="btn" onclick="restart()">Start again 🔁</button>
+  </div>`;
+}
+
+function restart() {
+  index = 0;
+  answers.length = 0;
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

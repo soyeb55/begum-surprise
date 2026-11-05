@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Begam Jii 💚</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  font-family:Georgia,"Times New Roman",serif;color:#18362f;
+  background:radial-gradient(ellipse at 50% 35%,#145849 0%,#0b4438 45%,#052b25 100%)}
+.card{width:min(560px,92vw);min-height:460px;padding:2rem 1.5rem;border-radius:22px;text-align:center;
+  background:#fffaf0;border:1px solid #d8c28c;box-shadow:0 25px 60px #00000040;position:relative;overflow:hidden}
+.step{display:none;animation:rise .6s ease both}
+.step.active{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.big{font-size:4.5rem;display:inline-block;margin:.5rem 0}
+.tag{font:600 .75rem Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#9a7734}
+h2{font-weight:normal;color:#073c32;font-size:1.7rem;margin:.6rem 0}
+p{font-size:1.1rem;line-height:1.8;margin:.6rem 0}
+.arabic{direction:rtl;color:#9a7734;font-size:1.3rem;margin-bottom:.5rem}
+.btn{margin-top:1.4rem;padding:.9rem 1.7rem;border:none;border-radius:999px;background:#d8b66a;color:#163c32;
+  font:inherit;font-size:1.05rem;cursor:pointer;transition:transform .2s}
+.btn:hover{transform:scale(1.06)}
+.btn.yes{background:#0b5142;color:#fff9e9}
+.clap{display:inline-block;transition:transform .3s}
+.clap.go{animation:clap .5s ease}
+@keyframes clap{0%,100%{transform:scale(1)}30%{transform:scale(1.5) rotate(-12deg)}60%{transform:scale(1.2) rotate(12deg)}}
+.bubble{display:inline-block;background:#fff;border:1px solid #e8dcc0;border-radius:18px;padding:.5rem 1rem;margin-top:.8rem;min-height:2.4rem}
+.dots{display:flex;justify-content:center;gap:.4rem;position:absolute;bottom:14px;left:0;right:0}
+.dots i{width:9px;height:9px;border-radius:50%;background:#e0d2ac}
+.dots i.on{background:#0b5142}
+.float{position:fixed;bottom:-40px;pointer-events:none;animation:up 5s linear forwards;font-size:1.5rem}
+@keyframes up{to{transform:translateY(-110vh);opacity:0}}
+.confetti{position:fixed;top:-30px;pointer-events:none;animation:fall 3s linear forwards;font-size:1.4rem}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.letter-line{min-height:4.5rem;font-size:1.05rem;line-height:1.9;text-align:left;font-style:italic}
+.dua{display:none;margin-top:1rem;padding:1rem;border-radius:14px;background:#edf3e8;line-height:1.8;text-align:left}
+.dua.show{display:block}
+.no{position:relative}
+
+/* Phone fix: allow scrolling on small screens */
+html, body { height: auto !important; min-height: 100% !important; overflow-y: auto !important; }
+body { align-items: flex-start !important; padding: 1.5rem 0.8rem 4rem !important; }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+
+  <!-- Step 1: Opening -->
+  <section class="step active" data-step="1">
+    <div class="tag">A little story</div>
+    <div class="big clap" id="clap1">🙌</div>
+    <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+    <h2>My Begam Jii</h2>
+    <p>I made you a small story. Ready? Don't cheat and skip ahead 😄</p>
+    <button class="btn" onclick="next()">Yes, I'm ready 👀</button>
+  </section>
+
+  <!-- Step 2: Hello -->
+  <section class="step" data-step="2">
+    <div class="tag">Chapter one</div>
+    <div class="big">👋</div>
+    <h2>The unexpected hello</h2>
+    <p>Four years ago, it all started on Snapchat. Just an ordinary app... and suddenly my whole day got better 😅</p>
+    <button class="btn" onclick="next()">Next 🙌</button>
+  </section>
+
+  <!-- Step 3: Numbers -->
+  <section class="step" data-step="3">
+    <div class="tag">Chapter one</div>
+    <div class="big">📱</div>
+    <h2>Numbers exchanged</h2>
+    <p>We exchanged numbers, and then came countless conversations, little moments, and the comfort of being understood.</p>
+    <p class="bubble">Honestly, I was nervous to type "hi" 😂</p><br>
+    <button class="btn" onclick="next()">Next 🙌</button>
+  </section>
+
+  <!-- Step 4: Admiration -->
+  <section class="step" data-step="4">
+    <div class="tag">Chapter one</div>
+    <div class="big">🌙</div>
+    <h2>The person behind the screen</h2>
+    <p>I came to admire your loyalty, your patience, your nature, and your faith.</p>
+    <p>You never made me feel I had to hide who I am. 💚</p>
+    <button class="btn" onclick="next()">Next 🙌</button>
+  </section>
+
+  <!-- Step 5: Three things -->
+  <section class="step" data-step="5">
+    <div class="tag">Chapter two</div>
+    <h2>What makes you so special</h2>
+    <p id="trait" style="min-height:6rem">Tap the button to find out 👇</p>
+    <div class="big clap" id="clap5">👏</div><br>
+    <button class="btn" id="traitBtn" onclick="trait()">Show me 💚</button>
+  </section>
+
+  <!-- Step 6: Letter -->
+  <section class="step" data-step="6">
+    <div class="tag">Chapter three</div>
+    <h2>A letter from Soyeb ✉️</h2>
+    <p class="letter-line" id="letterLine"></p>
+    <button class="btn" id="letterBtn" onclick="letter()">Keep reading 📖</button>
+  </section>
+
+  <!-- Step 7: Proposal -->
+  <section class="step" data-step="7">
+    <div class="tag">One question, from my heart</div>
+    <div class="big">💍</div>
+    <h2>Will you be my Begam Jii, forever, Insha'Allah?</h2>
+    <p>Not just the happy days, but the ordinary ones too 🥹</p>
+    <div style="margin-top:1rem">
+      <button class="btn yes" onclick="yes()">Yes 💚</button>
+      <button class="btn no" id="noBtn" onmouseover="dodge()" onclick="nope()">No 🙈</button>
+    </div>
+    <p class="bubble" id="noMsg" style="font-size:.95rem"></p>
+  </section>
+
+  <!-- Step 8: Yes -->
+  <section class="step" data-step="8">
+    <div class="big clap go">🎉</div>
+    <h2>Alhamdulillah! 🥰</h2>
+    <p>Thank you, Begam Jii. Thank you for letting me be part of your world.</p>
+    <div class="dua show" style="display:block">
+      <strong>My dua for us</strong><br>
+      May Allah guide our hearts, make our intentions pure, place barakah in our journey, and unite us in a loving and peaceful marriage if it is best for us. Ameen.<br><br>
+      <strong>With love, your Soyeb 💚</strong>
+    </div>
+    <button class="btn" onclick="location.reload()">Replay 🔁</button>
+  </section>
+
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+let current = 1;
+const total = 8;
+
+// Build progress dots
+const dotsEl = document.getElementById('dots');
+for (let i = 1; i <= total; i++) dotsEl.innerHTML += '<i></i>';
+
+function show(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-step="${n}"]`).classList.add('active');
+  [...dotsEl.children].forEach((d, i) => d.classList.toggle('on', i < n));
+  current = n;
+}
+function next() { if (current < total) show(current + 1); }
+
+// Hand clap gesture on tap
+function clap(id) {
+  const el = document.getElementById(id);
+  el.classList.remove('go'); void el.offsetWidth; el.classList.add('go');
+}
+document.getElementById('clap1').addEventListener('click', () => clap('clap1'));
+document.getElementById('clap5').addEventListener('click', () => clap('clap5'));
+
+// Step 5: three traits, one tap each
+const traits = [
+  "Your heart 💚 Your loyalty and patience mean more to me than words can explain.",
+  "Your character ☾ Your faith and the way you treat people are things I deeply admire.",
+  "Your conversations ♡ I could listen to you for hours, even when there is nothing to talk about. 😌"
+];
+let traitIndex = 0;
+function trait() {
+  clap('clap5');
+  document.getElementById('trait').textContent = traits[traitIndex];
+  traitIndex++;
+  if (traitIndex >= traits.length) {
+    document.getElementById('traitBtn').textContent = 'Next 🙌';
+    document.getElementById('traitBtn').onclick = next;
+  }
+}
+
+// Step 6: letter, one paragraph per tap
+const letterLines = [
+  "Assalamu Alaikum, my Begam Jii. If someone had told me four years ago that a simple meeting on Snapchat would become so precious, I probably wouldn't have believed them.",
+  "Do you know what I love most about you? Your heart, your character, and your beautiful way of understanding me without judging me. You made me feel I can be myself.",
+  "Begam Jii, I don't want our story to remain only a beautiful chapter of our past. I want us to have a future together. 💚",
+  "I dream of a home filled with peace, respect, understanding, laughter, and faith. I cannot promise every day will be perfect, but I promise to treat your heart as something precious.",
+  "With all my love and sincere intentions, your Soyeb 💚"
+];
+let letterIndex = 0;
+function letter() {
+  document.getElementById('letterLine').textContent = letterLines[letterIndex];
+  letterIndex++;
+  if (letterIndex >= letterLines.length) {
+    document.getElementById('letterBtn').textContent = 'Final question 💍';
+    document.getElementById('letterBtn').onclick = next;
+  }
+}
+letter(); // show the first line immediately when the letter step appears
+const observer = new MutationObserver(() => {
+  if (document.querySelector('[data-step="6"]').classList.contains('active') && letterIndex === 0) letter();
+});
+observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+
+// Step 7: the "No" button runs away and reacts
+const noMessages = ["Nice try 😂", "Not allowed 🙈", "Wrong button, Begam Jii 🤭", "Just click Yes 💚", "Last chance... 🥺"];
+let noCount = 0;
+function dodge() {
+  const btn = document.getElementById('noBtn');
+  btn.style.position = 'relative';
+  btn.style.left = (Math.random() * 120 - 60) + 'px';
+  btn.style.top = (Math.random() * 60 - 30) + 'px';
+}
+function nope() {
+  document.getElementById('noMsg').textContent = noMessages[Math.min(noCount, noMessages.length - 1)];
+  noCount++;
+  dodge();
+}
+
+// Step 8: celebration
+function yes() {
+  show(8);
+  for (let i = 0; i < 80; i++) {
+    const c = document.createElement('span');
+    c.className = 'confetti';
+    c.textContent = ['💚', '🎉', '✨', '🌸', '💕', '🙌'][Math.floor(Math.random() * 6)];
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.animationDelay = Math.random() * 1.5 + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4500);
+  }
+}
+</script>
+</body>
+</html>
